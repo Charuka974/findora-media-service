@@ -49,10 +49,21 @@ public class MediaServiceImpl implements MediaService {
             throw new IllegalArgumentException("Invalid file name");
         }
 
-        String objectName = UUID.randomUUID() + "-" + originalFileName;
+        // Optional image content type validation inspired by lecturer's example
+        String contentType = file.getContentType();
+        if (contentType == null || !contentType.startsWith("image/")) {
+            throw new IllegalArgumentException("Only image files are allowed");
+        }
+
+        String extension = "";
+        if (originalFileName.contains(".")) {
+            extension = originalFileName.substring(originalFileName.lastIndexOf("."));
+        }
+
+        String objectName = UUID.randomUUID() + extension;
 
         if ("gcs".equalsIgnoreCase(storageType)) {
-            return uploadToGcs(file, originalFileName, "media/" + objectName);
+            return uploadToGcs(file, originalFileName, objectName);
         } else {
             return uploadToLocal(file, originalFileName, objectName);
         }
@@ -94,17 +105,19 @@ public class MediaServiceImpl implements MediaService {
     }
 
     private MediaUploadResponse uploadToGcs(MultipartFile file, String originalFileName, String objectName) {
-        try {
-            if (storage == null) {
-                throw new IllegalStateException("GCS Storage bean is not initialized");
-            }
+        if (storage == null) {
+            throw new IllegalStateException("GCS Storage bean is not initialized");
+        }
 
+        try {
             BlobId blobId = BlobId.of(bucketName, objectName);
+            // Following the lecturer's pattern with content-type builder mapping
             BlobInfo blobInfo = BlobInfo.newBuilder(blobId)
                     .setContentType(file.getContentType())
                     .build();
 
-            storage.create(blobInfo, file.getBytes());
+            // Using stream-based storage.createFrom to optimize memory handling for large uploads
+            storage.createFrom(blobInfo, file.getInputStream());
 
             String url = "https://storage.googleapis.com/" + bucketName + "/" + objectName;
 
