@@ -1,10 +1,10 @@
 # Findora Media Service
 
 ## Student Information
-- **Student Name:** Charuka Hansaja[cite: 2]
-- **Student ID:** c44073838[cite: 2]
-- **Slack Handle:** Charuka (`U0BF12U29NF`)[cite: 2]
-- **GCP Project ID:** findora-cloud-platform[cite: 2]
+- **Student Name:** Charuka Hansaja
+- **Student ID:** 241722035
+- **Slack Handle:** Charuka (`U0BF12U29NF`)
+- **GCP Project ID:** findora-cloud-platform
 
 ---
 
@@ -12,9 +12,9 @@
 Handles media file uploads (images/attachments) for lost items and directly integrates with Google Cloud Storage Buckets.
 
 ## Technology Stack & Cloud Infrastructure
-- **Language:** Java 25 / Spring Boot[cite: 2]
-- **Cloud Storage:** Google Cloud Storage Bucket Integration[cite: 2]
-- **Service Discovery:** Netflix Eureka Client[cite: 2]
+- **Language:** Java 25 / Spring Boot
+- **Cloud Storage:** Google Cloud Storage Bucket Integration
+- **Service Discovery:** Netflix Eureka Client
 
 ## Setup / Getting Started Instructions
 ```bash
